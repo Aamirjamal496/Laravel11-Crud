@@ -13,7 +13,7 @@
     <div class="py-12">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mx-4 sm:mx-12 flex flex-col">
         <div class="p-6 text-gray-900 justify-center">
-            <a class="bg-slate-400 hover:bg-slate-500 text-white rounded-lg items-center py-2 px-4 my-3" href="{{ route('Product.Add');}}">Create</a>
+            <a class="bg-slate-400 hover:bg-slate-500 text-white rounded-lg items-center py-2 px-4 my-3" href="{{ route('Product.Add');}}">Create New Product</a>
         </div>
 
         <div class="relative overflow-x-auto">
@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Example row, repeat this for each product -->
+                        
                          @if($products->isNotEmpty())
                          @foreach($products as $product)
                          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -70,11 +70,14 @@
                              {{ \Carbon\Carbon::parse($product->created_at)->format('d M, Y') }}
                              </td>
                              <td class="px-6 py-4 flex space-x-2">
-                                 <a href="{{ route('products.edit', $product) }}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Edit</a>
-                                 <a href="#" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a>
+                                 <a href="{{route('product.edit',$product->id)}}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Edit</a> 
+                                 <a href="#" onclick="deleteProduct({{$product->id}})" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a>
+                                 <form id="delete-product-form-{{$product->id}}" action="{{route('product.delete',$product->id)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                 </form>
                              </td>
                          </tr>
-                         <!-- Repeat for more rows -->
                          @endforeach
                          @endif
                     </tbody>
@@ -85,3 +88,10 @@
 </div>
 
 </x-app-layout>
+<script>
+    function deleteProduct(id){
+        if(confirm("Are You Sure you want to delete product.?")){
+            document.getElementById('delete-product-form-'+id).submit();
+        }
+    }
+</script>
