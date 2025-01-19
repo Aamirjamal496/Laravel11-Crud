@@ -11,10 +11,10 @@
     @endif
 
     <!-- Messages section -->
-    <div class="relative overflow-x-auto">
+    <div class="relative overflow-x-auto mx-12">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <button class="bg-slate-300 py-2 px-3 my-1 mx-2 hover:bg-slate-400 rounded-lg"><span>Download Sheet</span></button>
+                <div class="my-3"><a href="{{route("Messages.export")}}" class="bg-slate-300 py-2 px-3 my-4 mx-2 hover:bg-slate-400 rounded-lg">Download Sheet</a></div>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -58,7 +58,7 @@
                         <td class="px-6 py-4">
                             {{ \Carbon\Carbon::parse($message->created_at)->format('d M, Y') }}
                         </td>
-                        <td class="px-6 py-4 flex justify-center items-center space-x-2">
+                        <td class="px-1 py-4 flex justify-center items-center space-x-2">
                             <a href="#" onclick="deleteMessage({{$message->id}})" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a>
                             <form id="delete-message-form-{{$message->id}}" action="{{route('Message.delete',$message->id)}}" method="post">
                                 @csrf
@@ -70,6 +70,10 @@
                     @endif
                 </tbody>
             </table>
+            <!-- Pagination Links -->
+            <div class="mt-4">
+                {{ $messages->links() }} <!-- This will generate the pagination controls -->
+            </div>
         </div>
     </div>
     <!-- End -->

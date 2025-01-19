@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/send', [ProductsController::class, 'contactUs'])->name('Message.send');
     Route::get('/messages',[ProductsController::class,"showMessages"])->name('Messages.show');
     Route::delete('/messages/{message}',[ProductsController::class,"deleteMessage"])->name('Message.delete');
+    Route::get('/Export',[ProductsController::class,"ExportMessages"])->name('Messages.export');
 });
 
 require __DIR__ . '/auth.php';

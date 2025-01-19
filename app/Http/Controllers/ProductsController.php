@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
-use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Product;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Auth;
+use App\Exports\MessagesExport;
 
 class ProductsController extends Controller
 {
@@ -129,12 +128,25 @@ class ProductsController extends Controller
         return redirect()->route('Contact')->with('success','Message Sent Successfully.');
     }
     public function showMessages(){
-        $messages = Contact::orderBy("created_at",'DESC')->get();
+        // $messages = Contact::orderBy("created_at",'DESC')->get();
+        $messages = Contact::paginate(10);
         return view('Messages',['messages'=>$messages]);
     }
     public function deleteMessage($id){
         $message = Contact::findOrFail($id);
         $message->delete();
         return redirect()->route('Messages.show')->with('success','Message deleted successfully');
+    }
+    public function ExportMessages(){
+        
+            // Initialize the export class
+            $export = new MessagesExport();
+            
+            // Get the file path after export
+            $filePath = $export->export();
+    
+            // Return the generated file as a downloadable response
+            return response()->download($filePath);
+        
     }
 }
