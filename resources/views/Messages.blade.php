@@ -11,8 +11,12 @@
     @endif
 
     <!-- Messages section -->
-    <div class="relative overflow-x-auto mx-12">
+    <div class="relative overflow-x-auto mx-12 ">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <!-- Pagination Links -->
+            <div class="mt-4">
+                {{ $messages->links() }} <!-- This will generate the pagination controls -->
+            </div>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <div class="my-3"><a href="{{route("Messages.export")}}" class="bg-slate-300 py-2 px-3 my-4 mx-2 hover:bg-slate-400 rounded-lg">Download Sheet</a></div>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -70,10 +74,7 @@
                     @endif
                 </tbody>
             </table>
-            <!-- Pagination Links -->
-            <div class="mt-4">
-                {{ $messages->links() }} <!-- This will generate the pagination controls -->
-            </div>
+            
         </div>
     </div>
     <!-- End -->
